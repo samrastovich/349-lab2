@@ -27,7 +27,13 @@ public class MatrixWork {
       System.out.println("Enter your file name: ");
       Scanner in = new Scanner(System.in);
       String fileName = in.nextLine();
-      in = new Scanner(new File(fileName));
+      try {
+      	in = new Scanner(new File(fileName));
+      }
+      catch (FileNotFoundException e) {
+      	System.out.println("File does not exist\n");
+      	return;
+      }
       int[][] A, B, C;
       
       int rows = in.nextInt();
