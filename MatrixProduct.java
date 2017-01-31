@@ -12,10 +12,10 @@ public class MatrixProduct {
          C[0][0] = A[startRowA][startColA] * B[startRowB][startColB];
       }
       else {
-         c11 = matrixAdd(matrixProduct_DAC(A, 0, 0, B, 0, 0, n / 2), matrixProduct_DAC(A, 0, n / 2, B, n / 2, 0, n / 2), n / 2);
-         c12 = matrixAdd(matrixProduct_DAC(A, 0, 0, B, 0, n / 2, n / 2), matrixProduct_DAC(A, 0, n / 2, B, n / 2, n / 2, n / 2), n / 2);
-         c21 = matrixAdd(matrixProduct_DAC(A, n / 2, 0, B, 0, 0, n / 2), matrixProduct_DAC(A, n / 2, n / 2, B, n / 2, 0, n / 2), n / 2);
-         c22 = matrixAdd(matrixProduct_DAC(A, n / 2, 0, B, 0, n / 2, n / 2), matrixProduct_DAC(A, n / 2, n / 2, B, n / 2, n / 2, n / 2), n / 2);
+         c11 = matrixAdd(matrixProduct_DAC(A, 0, 0, B, 0, 0, n / 2), matrixProduct_DAC(A, 0, n / 2, B, n / 2, 0, n / 2));
+         c12 = matrixAdd(matrixProduct_DAC(A, 0, 0, B, 0, n / 2, n / 2), matrixProduct_DAC(A, 0, n / 2, B, n / 2, n / 2, n / 2));
+         c21 = matrixAdd(matrixProduct_DAC(A, n / 2, 0, B, 0, 0, n / 2), matrixProduct_DAC(A, n / 2, n / 2, B, n / 2, 0, n / 2));
+         c22 = matrixAdd(matrixProduct_DAC(A, n / 2, 0, B, 0, n / 2, n / 2), matrixProduct_DAC(A, n / 2, n / 2, B, n / 2, n / 2, n / 2));
          subToResultMatrix(C, c11, 0, n / 2, 0, n / 2); //(C[0][0] = c11;
          subToResultMatrix(C, c12, n / 2, n, 0, n / 2); // C[0][1] = c12;
          subToResultMatrix(C, c21, 0, n / 2, n / 2, n); //C[1][0] = c21;
@@ -33,10 +33,10 @@ public class MatrixProduct {
    }
 
 
-   private static int[][] matrixAdd(int[][] A, int[][] B, int n) {
-      int[][] C = new int[n][n];
-      for (int i = 0; i < n; i++) {
-         for (int j = 0; j < n; j++) {
+   public static int[][] matrixAdd(int[][] A, int[][] B) {
+      int[][] C = new int[A.length][A.length];
+      for (int i = 0; i < A.length; i++) {
+         for (int j = 0; j < A.length; j++) {
             C[i][j] = A[i][j] + B[i][j];
          }
       }
