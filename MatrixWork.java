@@ -23,7 +23,7 @@ public class MatrixWork {
       }
       return C;
    }
-   public static void main(String[] args) throws FileNotFoundException{
+   public static void main(String[] args) {
       System.out.println("Enter your file name: ");
       Scanner in = new Scanner(System.in);
       String fileName = in.nextLine();
