@@ -1,3 +1,8 @@
+/* Authors: Matt Bryan and Sam Rastovich
+ * IDs: mpbryan and srastovi
+ * Date: 2-3-17
+ * Assignment: Project 2 (Matrix Multiplication) */
+
 public class MatrixProduct {
    public static int[][] matrixProduct_DAC(int[][] A, int[][] B) {
       checkSize(A, B);
@@ -7,7 +12,6 @@ public class MatrixProduct {
 
    private static int[][] matrixProduct_DAC(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
       int[][] C = new int[n][n];
-     // int[][] c11, c12, c21, c22;
       int newSize = n / 2;
       if (n == 1) {
          C[0][0] = A[startRowA][startColA] * B[startRowB][startColB];
@@ -17,22 +21,9 @@ public class MatrixProduct {
          matrixAdd(matrixProduct_DAC(A, startRowA, startColA, B, startRowB, startColB + newSize, newSize), matrixProduct_DAC(A, startRowA, startColA + newSize, B, startRowB + newSize, startColB + newSize, newSize), C, 0, newSize);
          matrixAdd(matrixProduct_DAC(A, startRowA + newSize, startColA, B, startRowB, startColB, newSize), matrixProduct_DAC(A, startRowA + newSize, startColA + newSize, B, startRowB + newSize, startColB, newSize), C, newSize, 0);
          matrixAdd(matrixProduct_DAC(A, startRowA + newSize, startColA, B, startRowB, startColB + newSize, newSize), matrixProduct_DAC(A, startRowA + newSize, startColA + newSize, B, startRowB + newSize, startColB + newSize, newSize), C, newSize, newSize);
-       /*  subToResultMatrix(C, c11, 0, n / 2, 0, n / 2); //(C[0][0] = c11;
-         subToResultMatrix(C, c12, n / 2, n, 0, n / 2); // C[0][1] = c12;
-         subToResultMatrix(C, c21, 0, n / 2, n / 2, n); //C[1][0] = c21;
-         subToResultMatrix(C, c22, n / 2, n, n / 2, n); //C[1][1] = c22; */
       }
       return C;
    }
-   
-/*   private static void subToResultMatrix(int[][] C, int[][] sub, int startRow, int endRow, int startCol, int endCol) {
-      for (int i = startRow; i < endRow; i++) {
-         for (int j = startCol; j < endCol; j++) {
-            C[i][j] = sub[i - startRow][j - startCol];
-         }
-      }
-   } */
-
 
    private static void matrixAdd(int[][] A, int[][] B, int[][] C, int rowC, int colC) {
       int n = A.length;   
@@ -57,10 +48,10 @@ public class MatrixProduct {
          C[0][0] = A[startRowA][startColA] * B[startRowB][startColB];
       }
       else {
-         s1 = matrixDiff(B, startRowB, startColB + newSize, B, startRowB + newSize, startColB + newSize, newSize); //s1 = B12 - B2
+         s1 = matrixDiff(B, startRowB, startColB + newSize, B, startRowB + newSize, startColB + newSize, newSize); //s1 = B12 - B22
          s2 = matrixSum(A, startRowA, startColA, A, startRowA, startColA + newSize, newSize); //s2 = A11 + A12
          s3 = matrixSum(A, startRowA + newSize, startColA, A, startRowA + newSize, startColA + newSize, newSize); //s3 = A21 + A22
-         s4 = matrixSum(B, startRowB + newSize, startColB, B, startRowB, startColB, newSize); //s4 = B21 + B11
+         s4 = matrixDiff(B, startRowB + newSize, startColB, B, startRowB, startColB, newSize); //s4 = B21 - B11
          s5 = matrixSum(A, startRowA, startColA, A, startRowA + newSize, startColA + newSize, newSize); //s5 = A11 + A22
          s6 = matrixSum(B, startRowB, startColB, B, startRowB + newSize, startColB + newSize, newSize); //s6 = B11 + B22
          s7 = matrixDiff(A, startRowA, startColA + newSize, A, startRowA + newSize, startColA + newSize, newSize); //s7 = A12 - A22
@@ -68,10 +59,6 @@ public class MatrixProduct {
          s9 = matrixDiff(A, startRowA, startColA, A, startRowA + newSize, startColA, newSize); //s9 = A11 - A21
          s10 = matrixSum(B, startRowB, startColB, B, startRowB, startColB + newSize, newSize); //s10 = B11 + B12
          
-         System.out.println("A:");
-         printMatrix(A);
-         System.out.println("s1");
-         printMatrix(s1);
          p1 = matrixProduct_Strassen(A, s1, startRowA, startColA, 0, 0, newSize); //p1 = a11 * s1
          p2 = matrixProduct_Strassen(s2, B, 0, 0, startRowB + newSize, startColB + newSize, newSize); //p2 = s2 * b22
          p3 = matrixProduct_Strassen(s3, B, 0, 0, startRowB, startColB, newSize); //p3 = s3 * b11
