@@ -57,7 +57,7 @@ public class MatrixProduct {
          C[0][0] = A[startRowA][startColA] * B[startRowB][startColB];
       }
       else {
-         s1 = matrixDiff(B, startRowB, startColB + newSize, B, startRowB + newSize, startColB + newSize, newSize); //s1 = B12 - B22
+         s1 = matrixDiff(B, startRowB, startColB + newSize, B, startRowB + newSize, startColB + newSize, newSize); //s1 = B12 - B2
          s2 = matrixSum(A, startRowA, startColA, A, startRowA, startColA + newSize, newSize); //s2 = A11 + A12
          s3 = matrixSum(A, startRowA + newSize, startColA, A, startRowA + newSize, startColA + newSize, newSize); //s3 = A21 + A22
          s4 = matrixSum(B, startRowB + newSize, startColB, B, startRowB, startColB, newSize); //s4 = B21 + B11
@@ -67,7 +67,11 @@ public class MatrixProduct {
          s8 = matrixSum(B, startRowB + newSize, startColB, B, startRowB + newSize, startColB + newSize, newSize); //s8 = B21 + B22
          s9 = matrixDiff(A, startRowA, startColA, A, startRowA + newSize, startColA, newSize); //s9 = A11 - A21
          s10 = matrixSum(B, startRowB, startColB, B, startRowB, startColB + newSize, newSize); //s10 = B11 + B12
-
+         
+         System.out.println("A:");
+         printMatrix(A);
+         System.out.println("s1");
+         printMatrix(s1);
          p1 = matrixProduct_Strassen(A, s1, startRowA, startColA, 0, 0, newSize); //p1 = a11 * s1
          p2 = matrixProduct_Strassen(s2, B, 0, 0, startRowB + newSize, startColB + newSize, newSize); //p2 = s2 * b22
          p3 = matrixProduct_Strassen(s3, B, 0, 0, startRowB, startColB, newSize); //p3 = s3 * b11
@@ -86,7 +90,7 @@ public class MatrixProduct {
       return C;
    }
 
-   public static int[][] combQuads(int[][] res, int[][] uppLeft, int[][] uppRight, int[][] botLeft, int[][] botRight, int quadSize) { //TESTED: PASSED
+   private static int[][] combQuads(int[][] res, int[][] uppLeft, int[][] uppRight, int[][] botLeft, int[][] botRight, int quadSize) { //TESTED: PASSED
       for (int i = 0; i < quadSize; i++) {
          for (int j = 0; j < quadSize; j++) {
             res[i][j] = uppLeft[i][j];
@@ -111,7 +115,7 @@ public class MatrixProduct {
    }
 
    private static int[][] matrixSum(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] result = new int[n][n];
+      int[][] result = new int[n][n]; //TESTED: PASSED
 
       for (int i = 0; i < n; i++) {
          for (int j = 0; j < n; j++) {
@@ -123,14 +127,14 @@ public class MatrixProduct {
    }
 
    private static int[][] matrixDiff(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] result = new int[n][n];
+      int[][] result = new int[n][n]; //TESTED: :PASSED
 
       for (int i = 0; i < n; i++) {
          for (int j = 0; j < n; j++) {
             result[i][j] = A[startRowA + i][startColA + j] - B[startRowB + i][startColB + j];
          }
       }
-
+      
       return result;
    }
 
@@ -146,6 +150,15 @@ public class MatrixProduct {
       }
       else if ((A.length & (A.length - 1)) != 0) {
          throw new IllegalArgumentException();
+      }
+   }
+   
+   private static void printMatrix(int[][] mat) {
+      for (int i = 0; i < mat.length; i++) {
+         for (int j = 0; j < mat[0].length; j++) {
+            System.out.print(mat[i][j] + " ");
+         }
+         System.out.println();
       }
    }
 }
